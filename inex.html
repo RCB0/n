@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File Upload and Text Post</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  #fileUpload {
+    margin-bottom: 20px;
+  }
+  #postBtn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <h2>Upload a File</h2>
+  <input type="file" id="fileUpload"><br>
+  
+  <h2>Post Text</h2>
+  <textarea id="postText" rows="4" cols="50"></textarea><br>
+  
+  <button id="postBtn">Post</button>
+
+  <script>
+    document.getElementById('postBtn').addEventListener('click', function() {
+      var fileInput = document.getElementById('fileUpload');
+      var file = fileInput.files[0];
+      var text = document.getElementById('postText').value;
+
+      var formData = new FormData();
+      formData.append('file', file);
+      formData.append('text', text);
+
+      fetch('upload.php', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.text())
+      .then(result => console.log('Response from server:', result))
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
